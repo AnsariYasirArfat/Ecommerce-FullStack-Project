@@ -1,4 +1,5 @@
 import { Typography } from "@material-tailwind/react";
+import PopularProduct from "./PopularProduct";
 
 function MainBody() {
   return (
@@ -101,6 +102,7 @@ function MainBody() {
           Read More
         </button>
       </section>
+      <PopularProduct />
     </>
   );
 }
