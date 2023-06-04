@@ -4,13 +4,10 @@ function MainBody() {
   return (
     <>
       {/* Banners' Section */}
-      <div
-        className="p-2 flex flex-col items-center md:flex-row "
-        style={{ height: "48vh" }}
-      >
-        <figure className="relative h-full w-full p-2">
+      <section className="py-4 px-2 sm:px-6 md:px-16 lg:px-4 flex flex-col items-center lg:flex-row justify-between">
+        <figure className="relative h-96 w-full p-1">
           <img
-            className="h-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
+            className="h-full w-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt="nature image"
           />
@@ -28,9 +25,9 @@ function MainBody() {
             </div>
           </figcaption>
         </figure>
-        <figure className="relative h-full w-full p-2">
+        <figure className="relative h-96 w-full p-1">
           <img
-            className="h-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
+            className="h-full w-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt="nature image"
           />
@@ -48,9 +45,9 @@ function MainBody() {
             </div>
           </figcaption>
         </figure>
-        <figure className="relative h-full w-full p-2">
+        <figure className="relative h-96 w-full p-1">
           <img
-            className="h-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
+            className="h-full w-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt="nature image"
           />
@@ -68,7 +65,7 @@ function MainBody() {
             </div>
           </figcaption>
         </figure>
-      </div>
+      </section>
     </>
   );
 }
