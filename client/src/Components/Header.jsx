@@ -266,9 +266,14 @@ function Header() {
         <Typography
           as="a"
           href="#"
-          className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
+          className="ml-2 cursor-pointer py-1.5 flex items-center"
         >
-          <img src={mainLogo} alt="mainLogo" className="w-14 rounded-full" />
+          <img
+            src={mainLogo}
+            alt="mainLogo"
+            className="w-12 rounded-full mr-4 "
+          />
+          <h1 className="text-xl font-bold text-teal-800">Zen Max</h1>
         </Typography>
         <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
           <NavList />
