@@ -25,8 +25,8 @@ function PopularProduct() {
   ];
   return (
     <>
-      <section className="m-5 p-5 bg-teal-300 rounded-lg">
-        <h1 className="pb-5 text-2xl md:text-4xl font-bold text-center text-teal-800">
+      <section className="my-8 mx-3 sm:mx-6 md:mx-8 lg:mx-5 p-5 bg-teal-300 rounded-lg">
+        <h1 className="pb-5 text-2xl sm:text-3xl xl:text-4xl 2xl:text-5xl  font-bold text-center text-teal-50">
           Popular Products
         </h1>
         <div className="flex flex-wrap justify-center sm:justify-evenly">

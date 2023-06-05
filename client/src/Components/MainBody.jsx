@@ -5,14 +5,14 @@ function MainBody() {
   return (
     <>
       {/* Banners' Section */}
-      <section className=" py-4 px-2 sm:px-6 md:px-16 lg:px-4 flex flex-col items-center lg:flex-row justify-between">
+      <section className=" py-4 px-2 sm:px-5 md:px-16 lg:px-4 flex flex-col items-center lg:flex-row justify-between">
         <figure className="relative h-96 w-full p-1">
           <img
             className="h-full w-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt="nature image"
           />
-          <figcaption className="absolute bottom-8 left-2/4 flex w-4/5 -translate-x-2/4 justify-between rounded-xl border border-teal-800 bg-teal-200 bg-opacity-70 py-4 px-6 ">
+          <figcaption className="py-4 px-6 absolute bottom-8 left-2/4 flex w-4/5 -translate-x-2/4 justify-between rounded-xl border border-teal-800  bg-teal-100 bg-opacity-70 hover:bg-opacity-100 hover:scale-105 cursor-pointer">
             <div className="">
               <Typography className="text-lg lg:text-2xl font-bold text-teal-700">
                 Sara Lamalo
@@ -32,7 +32,7 @@ function MainBody() {
             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt="nature image"
           />
-          <figcaption className="absolute bottom-8 left-2/4 flex w-4/5 -translate-x-2/4 justify-between rounded-xl border border-teal-800 bg-teal-200 bg-opacity-70 py-4 px-6 ">
+          <figcaption className="py-4 px-6 absolute bottom-8 left-2/4 flex w-4/5 -translate-x-2/4 justify-between rounded-xl border border-teal-800  bg-teal-100 bg-opacity-70 hover:bg-opacity-100 hover:scale-105 cursor-pointer">
             <div>
               <Typography className="text-lg lg:text-2xl font-bold text-teal-700">
                 Sara Lamalo
@@ -48,11 +48,11 @@ function MainBody() {
         </figure>
         <figure className="relative h-96 w-full p-1">
           <img
-            className="h-full w-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50"
+            className="h-full w-full m-auto object-center object-cover rounded-lg shadow-xl shadow-teal-900/50 "
             src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
             alt="nature image"
           />
-          <figcaption className="absolute bottom-8 left-2/4 flex w-4/5 -translate-x-2/4 justify-between rounded-xl border border-teal-800 bg-teal-200 bg-opacity-70 py-4 px-6 ">
+          <figcaption className="py-4 px-6 absolute bottom-8 left-2/4 flex w-4/5 -translate-x-2/4 justify-between rounded-xl border border-teal-800 bg-teal-100 bg-opacity-70 hover:bg-opacity-100 hover:scale-105 cursor-pointer">
             <div>
               <Typography className="text-lg lg:text-2xl font-bold text-teal-700">
                 Sara Lamalo
@@ -68,14 +68,14 @@ function MainBody() {
         </figure>
       </section>
       {/* Welcome Section */}
-      <section className="m-5 py-4 bg-teal-400 rounded-md flex flex-col items-center">
-        <h2 className="pb-4 text-2xl md:text-4xl font-bold  text-teal-800">
+      <section className="my-4 mx-3 sm:mx-6 md:mx-8 lg:mx-5 py-6 bg-teal-400 rounded-md flex flex-col items-center">
+        <h2 className="pb-4 text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-bold  text-teal-50">
           Welcome to our Website
         </h2>
         <div className="md:px-3 lg:px-6 xl:px-10 flex flex-col md:flex-row items-center justify-center ">
           {/* Image Section */}
           <img
-            className="w-[80%]  md:w-1/4  opacity-80 object-center object-cover rounded-lg shadow-2xl shadow-teal-950/50"
+            className="w-[80%]  md:w-1/4  opacity-90 hover:opacity-100 object-center object-cover rounded-lg shadow-2xl shadow-teal-950/50 "
             src="https://images.unsplash.com/photo-1595206133361-b1fe343e5e23?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
             alt="Welcome Image"
           />

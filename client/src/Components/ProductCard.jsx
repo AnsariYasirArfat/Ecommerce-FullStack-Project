@@ -19,15 +19,15 @@ function ProductCard({ Product }) {
   };
   return (
     <>
-      <Card className="w-48 sm:w-52 md:w-60 lg:w-64 bg-opacity-70 m-2 sm:mb-6 md:m-8 xl:mx-1">
+      <Card className="w-48 sm:w-52 md:w-60 lg:w-64 m-2 sm:mb-6 md:m-8 xl:mx-1 bg-opacity-[0.87] hover:bg-opacity-100 shadow-lg shadow-teal-900/60 hover:shadow-xl hover:shadow-teal-900/80">
         <CardHeader
           shadow={true}
           floated={false}
-          className="h-44 sm:h-48 md:h-56 lg:h-60  m-3 md:m-4 lg:m-5"
+          className="h-44 sm:h-48 md:h-56 lg:h-60  m-3 md:m-4 lg:m-5  "
         >
           <img
             src={Product.Image}
-            className="w-full h-full object-center object-cover rounded-lg shadow-2xl shadow-teal-950/50"
+            className="w-full h-full object-center object-cover rounded-lg shadow-2xl shadow-teal-950/50 hover:scale-110 ease-in-out duration-100"
           />
         </CardHeader>
         <CardBody className="px-4 py-0 lg:px-5">
@@ -51,7 +51,7 @@ function ProductCard({ Product }) {
             <Button
               onClick={RemoveFromWishList}
               fullWidth={true}
-              className="text-[10px] md:text-xs  px-4 py-2 md:py-3 bg-teal-900/10 text-red-500 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+              className="text-[10px] md:text-xs lg:text-sm  px-4 py-2 md:py-3 bg-teal-900/10 text-red-500 shadow-none hover:shadow-none  focus:shadow-none focus:scale-105 active:scale-100"
             >
               Remove from WishList
             </Button>
@@ -59,7 +59,7 @@ function ProductCard({ Product }) {
             <Button
               onClick={AddedToWishList}
               fullWidth={true}
-              className="text-[10px] md:text-xs lg:text-sm px-4 py-2 md:py-3 bg-teal-900/10 text-teal-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+              className="text-[10px] md:text-xs lg:text-sm px-4 py-2 md:py-3 bg-teal-900/10 text-teal-700 shadow-none hover:shadow-none  focus:shadow-none focus:scale-105 active:scale-100"
             >
               Add to WishList
             </Button>
