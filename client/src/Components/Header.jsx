@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
 import {
   // Navbar,
   Collapse,
@@ -139,7 +141,6 @@ function NavListMenu() {
       <MenuItem>
         <Typography
           variant="h6"
-          color=""
           className="text-teal-700 bg-teal-50 mb-1 p-2 rounded-lg"
         >
           {title}
@@ -199,10 +200,12 @@ function NavListMenu() {
 const navListItems = [
   {
     label: "About Us",
+    path: "about",
     imgIcon: "https://img.icons8.com/fluency-systems-regular/48/about.png",
   },
   {
     label: "Contact Us",
+    path: "contact",
     imgIcon: "https://img.icons8.com/windows/32/phone-message.png",
   },
 ];
@@ -211,9 +214,9 @@ function NavList() {
   return (
     <ul className="mb-4 mt-2  flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <Typography
-        as="a"
-        href="#"
-        variant="large"
+        as={NavLink}
+        to="/"
+        variant="h5"
         color="teal"
         className="font-normal"
       >
@@ -227,11 +230,11 @@ function NavList() {
         </MenuItem>
       </Typography>
       <NavListMenu />
-      {navListItems.map(({ label, imgIcon }) => (
+      {navListItems.map(({ label, imgIcon, path }) => (
         <Typography
           key={label}
-          as="a"
-          href="#"
+          as={NavLink}
+          to={`/${path}`}
           variant="small"
           color="teal"
           className="font-normal"
@@ -264,8 +267,8 @@ function Header() {
         style={{ height: "12vh" }}
       >
         <Typography
-          as="a"
-          href="#"
+          as={NavLink}
+          to="/"
           className="ml-2 cursor-pointer py-1.5 flex items-center"
         >
           <img

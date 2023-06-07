@@ -32,10 +32,7 @@ function PopularProduct() {
         <div className="flex flex-wrap justify-center sm:justify-evenly">
           {popularProducts.map((popularProduct) => {
             return (
-              <ProductCard
-                key={popularProduct.product}
-                Product={popularProduct}
-              />
+              <ProductCard key={popularProduct.Name} Product={popularProduct} />
             );
           })}
         </div>

@@ -108,10 +108,3 @@ function MainBody() {
 }
 
 export default MainBody;
-
-// lg:w-1/3 xl:w-1/4
-// lg:w-2/3 xl:w-3/4
-// w-72 h-56 md:w-96 md:h-80
-// h-60 md:h-80
-
-// style={{ height: "48vh" }}
