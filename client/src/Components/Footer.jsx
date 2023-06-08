@@ -1,16 +1,23 @@
 import { Typography } from "@material-tailwind/react";
+import { NavLink } from "react-router-dom";
 import mainLogo from "../Assets/mainLogo.png";
 
 function Footer() {
   const LINKS = [
     {
       title: "Product",
-      items: ["Cleannig products", "Ladies Saree & Dress", "Spices"],
+      items: [
+        { label: "Cleannig products", path: "" },
+        { label: "Ladies Saree & Dress", path: "" },
+        { label: "Spices", path: "" },
+      ],
     },
     {
       title: "Company",
-      items: ["About Us", "Contact Us"],
-      pageLink: "http://www.zenmaxindustries.in/about-us.htm",
+      items: [
+        { label: "About Us", path: "about" },
+        { label: "Contact Us", path: "contact" },
+      ],
     },
     // {
     //   title: "Contact Us",
@@ -23,20 +30,25 @@ function Footer() {
     <>
       <footer className="relative w-full bg-teal-600 py-6">
         <div className="mx-auto w-full max-w-7xl px-8">
-          <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
-            <Typography
-              href="#"
-              className="mb-6 cursor-pointer  flex items-center"
-            >
-              <img
-                src={mainLogo}
-                alt="mainLogo"
-                className="w-12 rounded-full mr-4 "
-              />
-              <h1 className="text-xl font-bold text-teal-50">Zen Max</h1>
+          <div className="grid grid-cols-1 justify-between md:grid-cols-2">
+            <Typography className="mb-6 ">
+              <div>
+                <NavLink
+                  to="/"
+                  className="cursor-pointer  flex items-center w-fit"
+                >
+                  <img
+                    src={mainLogo}
+                    alt="mainLogo"
+                    className="w-12 rounded-full mr-4 "
+                  />
+                  <h1 className="text-xl font-bold text-teal-50">Zen Max</h1>
+                </NavLink>
+              </div>
             </Typography>
+
             <div className="grid grid-cols-2 justify-between gap-6">
-              {LINKS.map(({ title, items, pageLink }) => (
+              {LINKS.map(({ title, items }) => (
                 <ul key={title}>
                   <Typography
                     variant="small"
@@ -46,14 +58,14 @@ function Footer() {
                     {title}
                   </Typography>
                   {items.map((item) => (
-                    <li key={item}>
+                    <li key={item.label}>
                       <Typography
-                        as="a"
-                        href={pageLink}
+                        as={NavLink}
+                        to={`/${item.path}`}
                         color="gray"
-                        className="py-1.5 sm:font-semibold transition-colors text-teal-200 hover:text-teal-900 hover:underline "
+                        className="w-fit py-1.5 sm:font-semibold transition-colors text-teal-200 hover:text-teal-900 hover:underline "
                       >
-                        {item}
+                        {item.label}
                       </Typography>
                     </li>
                   ))}

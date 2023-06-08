@@ -2,9 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import {
-  // Navbar,
   Collapse,
-  // MobileNav,
   Typography,
   Button,
   Menu,
@@ -261,7 +259,7 @@ function Header() {
   }, []);
 
   return (
-    <nav className="w-full  px-10 bg-teal-50 text-red-600">
+    <nav className="w-full px-10 bg-teal-50 text-red-600">
       <div
         className="relative  flex items-center text-blue-gray-900"
         style={{ height: "12vh" }}
