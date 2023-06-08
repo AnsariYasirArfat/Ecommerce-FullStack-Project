@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+
 const ContactUs = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-teal-100 py-8">
       <div className=" m-5 flex flex-col md:flex-row">
@@ -212,7 +217,7 @@ const ContactUs = () => {
                 Submit
               </button>
               <button
-                className="bg-teal-500 text-teal-50 text-xs sm:text-sm lg:text-base py-1 px-2  md:px-3  lg:px-4 rounded-md hover:bg-teal-600 hover:text-red-400"
+                className="bg-teal-500 text-teal-50 text-xs sm:text-sm lg:text-base py-1 px-2  md:px-3  lg:px-4 rounded-md hover:text-teal-100 hover:bg-red-400"
                 type="reset"
               >
                 Cancel

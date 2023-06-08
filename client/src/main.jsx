@@ -13,6 +13,7 @@ import App from "./App.jsx";
 import MainBody from "./Components/MainBody";
 import AboutUs from "./Components/AboutUs";
 import ContactUs from "./Components/ContactUs";
+import ProductList from "./Components/ProductList";
 
 const MainSection = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const MainSection = createBrowserRouter(
         <Route index element={<MainBody />} />
         <Route path="about" element={<AboutUs />} />
         <Route path="contact" element={<ContactUs />} />
+        <Route path="product" element={<ProductList />} />
       </Route>
     </>
   )

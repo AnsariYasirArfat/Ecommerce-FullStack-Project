@@ -154,7 +154,12 @@ function NavListMenu() {
     <React.Fragment>
       <Menu open={isMenuOpen} handler={setIsMenuOpen}>
         <MenuHandler>
-          <Typography as="a" href="#" variant="small" className="font-normal">
+          <Typography
+            as={NavLink}
+            to="/product"
+            variant="small"
+            className="font-normal"
+          >
             <MenuItem
               {...triggers}
               className="hidden items-center gap-2 text-teal-600 lg:flex font-bold"
@@ -186,9 +191,11 @@ function NavListMenu() {
           </ul>
         </MenuList>
       </Menu>
-      <MenuItem className="flex items-center gap-2 text-teal-600 lg:hidden font-bold">
-        <ShoppingBagIcon className="h-[18px] w-[18px] " /> Products
-      </MenuItem>
+      <NavLink to="/product">
+        <MenuItem className="flex items-center gap-2 text-teal-600 lg:hidden font-bold">
+          <ShoppingBagIcon className="h-[18px] w-[18px] " /> Products
+        </MenuItem>
+      </NavLink>
       <ul className="ml-6 flex  flex-col gap-1 lg:hidden">{renderItems}</ul>
     </React.Fragment>
   );
@@ -259,7 +266,7 @@ function Header() {
   }, []);
 
   return (
-    <nav className="w-full px-10 bg-teal-50 text-red-600">
+    <nav className="sticky  top-0  z-10 w-full px-10 bg-teal-50 text-red-600">
       <div
         className="relative  flex items-center text-blue-gray-900"
         style={{ height: "12vh" }}

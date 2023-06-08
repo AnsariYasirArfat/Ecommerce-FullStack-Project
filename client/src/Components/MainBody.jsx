@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { Typography } from "@material-tailwind/react";
 import PopularProduct from "./PopularProduct";
+import { Link } from "react-router-dom";
 
 function MainBody() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       {/* Banners' Section */}
@@ -99,7 +105,7 @@ function MainBody() {
           </div>
         </div>
         <button className="mt-2 text-sm px-2 py-1 lg:px-3 lg:py-2 md:font-semibold bg-teal-100 text-teal-900   hover:text-teal-50 hover:bg-teal-700">
-          Read More
+          <Link to="/about">Read More</Link>
         </button>
       </section>
       <PopularProduct />
