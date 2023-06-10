@@ -6,66 +6,182 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 
+import productImage from "../Assets/product.png";
+import ProductCard from "./ProductCard";
+
 function ProductList() {
   const data = [
     {
-      label: "HTML",
-      value: "html",
-      desc: `It really matters and then like it really doesn't matter.
-      What matters is the people who are sparked by it. And the people
-      who are like offended by it, it doesn't matter.`,
+      label: "All",
+      value: "all",
+      products: [
+        {
+          Name: "White Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+      ],
     },
     {
-      label: "React",
-      value: "react",
-      desc: `Because it's about motivating the doers. Because I'm here
-      to follow my dreams and inspire other people to follow their dreams, too.`,
+      label: "Powder",
+      value: "powder",
+      products: [
+        {
+          Name: "White Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+      ],
     },
     {
-      label: "Vue",
-      value: "vue",
-      desc: `We're not always in the position that we want to be at.
-      We're constantly growing. We're constantly making mistakes. We're
-      constantly trying to express ourselves and actualize our dreams.`,
-    },
-    {
-      label: "Angular",
-      value: "angular",
-      desc: `Because it's about motivating the doers. Because I'm here
-      to follow my dreams and inspire other people to follow their dreams, too.`,
-    },
-    {
-      label: "Svelte",
-      value: "svelte",
-      desc: `We're not always in the position that we want to be at.
-      We're constantly growing. We're constantly making mistakes. We're
-      constantly trying to express ourselves and actualize our dreams.`,
+      label: "Liquid",
+      value: "liquid",
+      products: [
+        {
+          Name: "White Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Powder",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Blue Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+        {
+          Name: "Green Liquid",
+          Price: "100",
+          Image: productImage,
+        },
+      ],
     },
   ];
 
   return (
-    <Tabs id="custom-animation" value="html">
-      <TabsHeader>
-        {data.map(({ label, value }) => (
-          <Tab key={value} value={value}>
-            {label}
-          </Tab>
-        ))}
-      </TabsHeader>
-      <TabsBody
-        animate={{
-          initial: { y: 250 },
-          mount: { y: 0 },
-          unmount: { y: 250 },
-        }}
+    <>
+      <div>
+        <h1 className="text-4xl font-bold text-center p-4 text-teal-900">
+          ProductList
+        </h1>
+      </div>
+      <Tabs
+        id="custom-animation"
+        value="all"
+        className="flex flex-col md:flex-row relative"
       >
-        {data.map(({ value, desc }) => (
-          <TabPanel key={value} value={value} className="py-0">
-            {desc}
-          </TabPanel>
-        ))}
-      </TabsBody>
-    </Tabs>
+        <TabsHeader className="sticky top-0 flex flex-row md:flex-col md:w-32">
+          {data.map(({ label, value }) => (
+            <Tab key={value} value={value} className="bg-teal-100">
+              {label}
+            </Tab>
+          ))}
+        </TabsHeader>
+        <TabsBody
+          animate={{
+            initial: { y: 400 },
+            mount: { y: 0 },
+            unmount: { y: 400 },
+          }}
+        >
+          {data.map(({ value, products }) => (
+            <TabPanel key={value} value={value} className="py-0 flex flex-wrap">
+              {products.map((product) => {
+                return <ProductCard key={product.Name} Product={product} />;
+              })}
+            </TabPanel>
+          ))}
+        </TabsBody>
+      </Tabs>
+    </>
   );
 }
 
