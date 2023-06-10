@@ -19,7 +19,7 @@ function ProductCard({ Product }) {
   };
   return (
     <>
-      <Card className="w-48 sm:w-52 md:w-60 lg:w-64 m-2 sm:mb-6 md:m-8 xl:mx-1 bg-opacity-[0.87] hover:bg-opacity-100 shadow-lg shadow-teal-900/60 hover:shadow-xl hover:shadow-teal-900/80">
+      <Card className="w-48 sm:w-52 md:w-60 lg:w-64 bg-opacity-[0.87] hover:bg-opacity-100 shadow-lg shadow-teal-900/60 hover:shadow-xl hover:shadow-teal-900/80">
         <CardHeader
           shadow={true}
           floated={false}
@@ -75,3 +75,5 @@ export default ProductCard;
 ProductCard.propTypes = {
   Product: PropTypes.object,
 };
+
+// m-2 sm:mb-6 md:m-8 xl:mx-1
