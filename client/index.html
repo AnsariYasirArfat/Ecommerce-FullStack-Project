@@ -26,6 +26,7 @@
 
       /* Firefox */
       * {
+        scrollbar-width: thin;
         scrollbar-color: #115e59 #5eead4; /* Thumb and track colors */
       }
 
@@ -35,6 +36,15 @@
 
       *::-moz-scrollbar-thumb:hover {
         background-color: #0d9488; /* Thumb color on hover */
+      }
+
+      /*ProductList's Scroller  */
+      #ProductListWindow::-webkit-scrollbar {
+        width: 0; /* Chrome and Safari */
+      }
+      #ProductListWindow {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
       }
     </style>
   </head>
