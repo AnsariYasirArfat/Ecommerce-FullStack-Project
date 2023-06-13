@@ -14,6 +14,7 @@ import MainBody from "./Components/MainBody";
 import AboutUs from "./Components/AboutUs";
 import ContactUs from "./Components/ContactUs";
 import ProductList from "./Components/ProductList";
+import ProductPage from "./Components/ProductPage";
 
 const MainSection = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const MainSection = createBrowserRouter(
         <Route path="about" element={<AboutUs />} />
         <Route path="contact" element={<ContactUs />} />
         <Route path="product" element={<ProductList />} />
+        <Route path="productpage" element={<ProductPage />} />
       </Route>
     </>
   )
