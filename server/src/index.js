@@ -14,6 +14,7 @@ import config from "./config/index.js";
 
     app.get("/", (req, res) => {
       res.send("Hello From Backend Server!");
+      console.log("Cookies: ", req.cookies);
     });
     const onListening = () => {
       console.log(`listening on port ${config.PORT}`);
