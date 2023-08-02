@@ -18,6 +18,11 @@ app.use(cookieParser());
 
 app.use("/api/v1", routes);
 
+app.get("/", (req, res) => {
+  res.send("Hello From Backend Server!");
+  console.log("Cookies: ", req.cookies);
+});
+
 app.all("*", (_req, res) => {
   return res.status(404).json({
     success: false,
