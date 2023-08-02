@@ -46,7 +46,7 @@ userSchema.pre("save", async function (next) {
 /**
  * Methods for userSchema
  */
-userSchema.method = {
+userSchema.methods = {
   // compare password
   comparePassword: async function (enterPassword) {
     return await bcrypt.compare(enterPassword, this.password);
@@ -54,7 +54,7 @@ userSchema.method = {
 
   // generate JWT Token
   getJWTToken: function () {
-    JWT.sign({ _id: this._id, role: this.role }, config.JWT_SECRET, {
+    return JWT.sign({ _id: this._id, role: this.role }, config.JWT_SECRET, {
       expiresIn: config.JWT_EXPIRY,
     });
   },
@@ -67,6 +67,7 @@ userSchema.method = {
       .update(forgotToken)
       .digest("hex");
     // time for token to expire
+    console.log(this.forgotPasswordToken);
     this.forgotPasswordExpiry = Date.now() + 20 * 60 * 1000;
     return forgotToken;
   },

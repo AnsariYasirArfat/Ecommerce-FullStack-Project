@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import asyncHandler from "../services/asyncHandler.js";
 import CustomError from "../services/CustomError.js";
 import mailHelper from "../services/mailHelper.js";
+import crypto from "crypto";
 
 export const cookieOptions = {
   expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
@@ -27,7 +28,7 @@ export const signUp = asyncHandler(async (req, res) => {
   // But first check if user already exists?
   const exitingUser = await User.findOne({ email });
   if (exitingUser) {
-    throw CustomError("User already exists", 400);
+    throw new CustomError("User already exists", 400);
   }
   // Now add data
   const user = await User.create({
@@ -42,6 +43,7 @@ export const signUp = asyncHandler(async (req, res) => {
   // Store this token in user's cookie
   res.cookie("token", token, cookieOptions);
 
+  console.log("Cookies: ", req.cookies);
   // Sending token to client in response
   res.status(200).json({
     success: true,
@@ -62,8 +64,9 @@ export const login = asyncHandler(async (req, res) => {
   if (!email || !password) {
     throw new CustomError("Please fill all details", 400);
   }
-
-  const user = User.findOne({ email }).select("+password");
+  console.log("login");
+  const user = await User.findOne({ email }).select("+password");
+  console.log(user);
 
   if (!user) {
     throw new CustomError("Invalid creadentials", 400);
@@ -72,7 +75,10 @@ export const login = asyncHandler(async (req, res) => {
   const isPasswordMatched = await user.comparePassword(password);
   if (isPasswordMatched) {
     const token = user.getJWTToken();
+
     res.cookie("token", token, cookieOptions);
+    console.log("Cookies: ", req.cookies);
+
     return res.status(200).json({
       success: true,
       token,
@@ -90,10 +96,13 @@ export const login = asyncHandler(async (req, res) => {
  **********************************************************/
 
 export const logout = asyncHandler(async (req, res) => {
+  console.log("Cookies_after_logout: ", req.cookies);
+
   res.cookie("token", null, {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
+  console.log("Cookies_after_logout: ", req.cookies);
 
   res.status(200).json({
     success: true,
@@ -135,17 +144,33 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   }
 
   const resetToken = user.generateForgetPasswordToken();
+  console.log(resetToken);
 
-  await user.save({ validateBeforeSave: false });
+  //   await user.save({ validateBeforeSave: false });
+  try {
+    await user.save();
+  } catch (error) {
+    console.error("Error saving user:", error);
+    throw new CustomError("Failed to save user", 500);
+  }
+
+  console.log(req.protocol);
 
   const resetUrl = `${req.protocol}://${req.get(
     "host"
   )}/api/v1/auth/resetpassword/${resetToken}`;
 
+  console.log(resetUrl);
   const message = `Your password reset token is as follows \n\n ${resetUrl} \n\n if this was not requested by you, please ignore.`;
 
   try {
     await mailHelper({
+      email: user.email,
+      subject: "Password reset mail",
+      message,
+    });
+    res.status(200).json({
+      success: true,
       email: user.email,
       subject: "Password reset mail",
       message,
@@ -155,7 +180,8 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     user.forgotPasswordExpiry = undefined;
     await user.save({ validateBeforeSave: false });
 
-    throw new CustomError(error.message || "Email could not be sent", 500);
+    console.error("Error sending email:", error);
+    throw new CustomError("Email could not be sent", 500);
   }
 });
 
@@ -179,15 +205,19 @@ export const resetPassword = asyncHandler(async (req, res) => {
     .update(resetToken)
     .digest("hex");
 
+  console.log("resetToken: ", resetPasswordToken);
+
   const user = await User.findOne({
     forgotPasswordToken: resetPasswordToken,
     forgotPasswordExpiry: { $gt: Date.now() },
   });
+  console.log("user", user);
 
   if (!user) {
     throw new CustomError("Password reset token in invalid or expired", 400);
   }
 
+  console.log(password);
   user.password = password;
   user.forgotPasswordToken = undefined;
   user.forgotPasswordExpiry = undefined;
