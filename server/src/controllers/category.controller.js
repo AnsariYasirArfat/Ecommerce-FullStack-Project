@@ -52,9 +52,9 @@ export const updateCategory = asyncHandler(async (req, res) => {
 });
 
 /**
- * To Delete Collection
+ * To Delete Category
  */
-export const deleteCollection = asyncHandler(async (req, res) => {
+export const deleteCategory = asyncHandler(async (req, res) => {
   const { id: categoryId } = req.params;
   // const categoryToDelete = await Category.findByIdAndDelete(categoryId)  // Direct Method
   const categoryToDelete = await Category.findById(categoryId);
@@ -69,9 +69,9 @@ export const deleteCollection = asyncHandler(async (req, res) => {
 });
 
 /**
- * To Get all Collections
+ * To Get all Category
  */
-export const getAllCategory = asyncHandler(async (req, res) => {
+export const getAllCategory = asyncHandler(async (_req, res) => {
   const categories = await Category.find();
   if (!categories) {
     throw new CustomError("No Categories found", 400);
