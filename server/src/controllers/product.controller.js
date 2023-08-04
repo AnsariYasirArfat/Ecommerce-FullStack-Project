@@ -3,7 +3,22 @@ import mongoose from "mongoose";
 import asyncHandler from "../services/asyncHandler.js";
 import CustomError from "../services/CustomError.js";
 import formidable from "formidable";
-import { storage } from "../services/firebaseInit.js";
+// import { storageRef } from "../services/firebaseInit.js";
+import fs from "fs";
+
+import { initializeApp } from "firebase/app";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+  listAll,
+} from "firebase/storage";
+import firebaseConfig from "../config/firebase.config.js";
+
+const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
 
 /**********************************************************
  * @ADD_PRODUCT
@@ -25,33 +40,45 @@ export const addProduct = asyncHandler(async (req, res) => {
     const { name, description, price, brand, category, stock, isFeatured } =
       fields;
 
-    if (!name || !price || !description || !category || !stock) {
+    if (!name || !price || !description || !stock) {
       throw new CustomError("Please fill all required fields", 500);
     }
 
-    const storageRef = storage.ref();
     const imageUrls = await Promise.all(
       Object.keys(files).map(async (file, index) => {
-        const element = files[fileKey];
-        console.log(element);
-        const data = fs.readFileSync(element.filepath);
+        const element = files[file];
+        console.log("element", element);
 
-        const fileName = `products/${productId}/photo_${index + 1}.png`;
-        const imageRef = storageRef.child(fileName);
-        const snapshot = await imageRef.put(data);
-        const imageUrl = await snapshot.ref.getDownloadURL();
-        return { secure_url: imageUrl };
+        try {
+          const data = fs.readFileSync(element[0].filepath);
+          console.log("Data of images", data);
+
+          // Get the file extension from the original filename
+          const fileExtension = element[0].originalFilename.split(".").pop();
+
+          const fileName = `products/${productId}/${name[0]}_photo_${
+            index + 1
+          }.${fileExtension}`;
+          console.log("File Name", fileName);
+          const imageRef = ref(storage, fileName);
+          const snapshot = await uploadBytes(imageRef, data);
+          const imageUrl = await getDownloadURL(snapshot.ref);
+          return { imageUrl: imageUrl };
+        } catch (err) {
+          console.error("Error reading file:", err);
+          throw new CustomError("Error reading image files", 500);
+        }
       })
     );
+    console.log(imageUrls);
     const product = await Product.create({
       _id: productId,
-      name,
-      description,
-      price,
-      brand,
-      category: mongoose.Types.ObjectId(category),
-      stock,
-      isFeatured,
+      name: name[0],
+      description: description[0],
+      price: parseInt(price[0]),
+      brand: brand[0],
+      stock: parseInt(stock[0]),
+      isFeatured: Boolean(isFeatured[0]),
       photos: imageUrls,
     });
     if (!product) {
@@ -59,6 +86,8 @@ export const addProduct = asyncHandler(async (req, res) => {
     }
     res.status(200).json({
       success: true,
+      message:
+        "files uploaded to firebase storage and product details added to mongodb",
       product,
     });
   });
@@ -76,18 +105,39 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     throw new CustomError("Product not found", 404);
   }
 
-  const storageRef = storage.ref();
+  // const photoDeletion = Promise.all(
+  //   product.photos.map((photo, index) => {
+  //     try {
+  //       const fileName = `products/${productId}/${product.name}_photo_${
+  //         index + 1
+  //       }.jpg`;
+  //       const photoRef = ref(storage, fileName);
+  //       return deleteObject(photoRef);
+  //     } catch (err) {
+  //       console.error("Error deleting file:", err);
+  //       throw new CustomError("Error deleting image files", 500);
+  //     }
+  //   })
+  // );
+  // await photoDeletion;
 
-  const photoDeletion = Promise.all(
-    product.photos.map((photo) => {
-      const photoRef = storageRef.child(photo.imageUrl);
-      return photoRef.delete();
-    })
+  // Get the folder reference in Firebase Storage
+  const folderRef = ref(storage, `products/${productId}/`);
+
+  // List all the items (files) inside the folder
+  const listResult = await listAll(folderRef);
+
+  // Delete all the files inside the folder
+  const fileDeletion = Promise.all(
+    listResult.items.map((itemRef) => deleteObject(itemRef))
   );
-  await photoDeletion;
+
+  // Delete the folder itself
+  await fileDeletion;
 
   // Delete the product from MongoDB
-  await product.remove();
+  await Product.findByIdAndDelete(productId);
+
   res.status(200).json({
     success: true,
     message: "Product has been deleted successfully",
