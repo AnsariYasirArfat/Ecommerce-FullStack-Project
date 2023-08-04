@@ -66,7 +66,10 @@ export const addProduct = asyncHandler(async (req, res) => {
           return { imageUrl: imageUrl };
         } catch (err) {
           console.error("Error reading file:", err);
-          throw new CustomError("Error reading image files", 500);
+          throw new CustomError(
+            err.message || "Error reading image files",
+            500
+          );
         }
       })
     );
@@ -105,6 +108,9 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     throw new CustomError("Product not found", 404);
   }
 
+  /**
+   * Deleting files individually with exact file name
+   */
   // const photoDeletion = Promise.all(
   //   product.photos.map((photo, index) => {
   //     try {
@@ -121,6 +127,9 @@ export const deleteProduct = asyncHandler(async (req, res) => {
   // );
   // await photoDeletion;
 
+  /**
+   * Deleting whole folder of files of the product
+   */
   // Get the folder reference in Firebase Storage
   const folderRef = ref(storage, `products/${productId}/`);
 

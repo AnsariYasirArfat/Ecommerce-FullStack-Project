@@ -7,29 +7,38 @@ import {
   getProductById,
 } from "../controllers/product.controller.js";
 import { authorize, isLoggedIn } from "../middleware/auth.middleware.js";
-import AuthRoles from "../utils/authRoles";
+import AuthRoles from "../utils/authRoles.js";
 
 const router = Router();
 
-router.post("/addproduct", isLoggedIn, authorize(AuthRoles.ADMIN), addProduct);
-router.delete("/:id", isLoggedIn, authorize(AuthRoles.ADMIN), deleteProduct);
+router.get("/", (req, res) => {
+  res.send("Product Route here!");
+});
+router.post(
+  "/addproduct",
+  /*isLoggedIn, authorize(AuthRoles.ADMIN),*/ addProduct
+);
+router.delete(
+  "/:id",
+  /*isLoggedIn, authorize(AuthRoles.ADMIN),*/ deleteProduct
+);
 
 router.get(
   "/getallproducts",
-  isLoggedIn,
-  authorize(AuthRoles.ADMIN, AuthRoles.USER),
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN, AuthRoles.USER),*/
   getALLProducts
 );
 router.get(
-  "/product/:id",
-  isLoggedIn,
-  authorize(AuthRoles.ADMIN, AuthRoles.USER),
+  "/productid/:id",
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN, AuthRoles.USER),*/
   getProductById
 );
 router.get(
   "/productcategory/:id",
-  isLoggedIn,
-  authorize(AuthRoles.ADMIN, AuthRoles.USER),
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN, AuthRoles.USER),*/
   getProductByCategoryId
 );
 
