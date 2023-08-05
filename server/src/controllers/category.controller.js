@@ -10,13 +10,20 @@ export const createCategory = asyncHandler(async (req, res) => {
   if (!name) {
     throw new CustomError("Name of Category is required", 400);
   }
+
+  // But first check if category already exists?
+  const exitingCategory = await Category.findOne({ name });
+  if (exitingCategory) {
+    throw new CustomError("Category already exists", 400);
+  }
+
   const category = await Category.create({
     name,
     description,
     imageUrl,
   });
 
-  res.status(200).jsom({
+  res.status(200).json({
     success: true,
     message: "Category created successfully",
     category,
@@ -56,13 +63,13 @@ export const updateCategory = asyncHandler(async (req, res) => {
  */
 export const deleteCategory = asyncHandler(async (req, res) => {
   const { id: categoryId } = req.params;
-  // const categoryToDelete = await Category.findByIdAndDelete(categoryId)  // Direct Method
-  const categoryToDelete = await Category.findById(categoryId);
+  const categoryToDelete = await Category.findByIdAndDelete(categoryId); // Direct Method
+
   if (!categoryToDelete) {
     throw new CustomError("Category to be Deleted not found", 400);
   }
-  await categoryToDelete.remove();
-  res.status(200).jsom({
+
+  res.status(200).json({
     success: true,
     message: "Category deleted successfully",
   });

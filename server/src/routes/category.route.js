@@ -10,26 +10,30 @@ import AuthRoles from "../utils/authRoles.js";
 
 const router = Router();
 
-router.post("/", isLoggedIn, authorize(AuthRoles.ADMIN), createCategory);
+router.post(
+  "/createcategory",
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN),*/ createCategory
+);
 
 router.delete(
   "/:id",
-  isLoggedIn,
-  authorize(AuthRoles.ADMIN, AuthRoles.USER),
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN, AuthRoles.USER),*/
   deleteCategory
 );
 
 router.put(
   "/action/:id",
-  isLoggedIn,
-  authorize(AuthRoles.ADMIN, AuthRoles.USER),
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN, AuthRoles.USER),*/
   updateCategory
 );
 
 router.get(
   "/",
-  isLoggedIn,
-  authorize(AuthRoles.ADMIN, AuthRoles.USER),
+  /*isLoggedIn,
+  authorize(AuthRoles.ADMIN, AuthRoles.USER),*/
   getAllCategory
 );
 

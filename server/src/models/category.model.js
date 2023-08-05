@@ -11,18 +11,18 @@ const categorySchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      // required: true,
     },
     imageUrl: {
       type: String,
-      required: true,
+      // required: true,
     },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
+    // products: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Product",
+    //   },
+    // ],
   },
   { timestamps: true }
 );

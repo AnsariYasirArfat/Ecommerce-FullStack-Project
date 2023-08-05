@@ -80,6 +80,7 @@ export const addProduct = asyncHandler(async (req, res) => {
       description: description[0],
       price: parseInt(price[0]),
       brand: brand[0],
+      category: category[0],
       stock: parseInt(stock[0]),
       isFeatured: Boolean(isFeatured[0]),
       photos: imageUrls,
