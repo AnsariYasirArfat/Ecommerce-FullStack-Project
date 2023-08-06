@@ -36,7 +36,7 @@ export const addToWishlist = asyncHandler(async (req, res) => {
  * @returns Wishlist Products Object
  *********************************************************/
 export const getWishlist = asyncHandler(async (req, res) => {
-  const { userId } = req.param;
+  const { userId } = req.body;
 
   if (!userId) {
     throw new CustomError("Please provide User Id", 400);
