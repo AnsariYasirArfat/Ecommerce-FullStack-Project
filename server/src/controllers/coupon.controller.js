@@ -1,6 +1,6 @@
 import Coupon from "../models/coupon.model.js";
-import asyncHandler from "../services/asyncHandler";
-import CustomError from "../services/CustomError";
+import asyncHandler from "../services/asyncHandler.js";
+import CustomError from "../services/CustomError.js";
 
 /**********************************************************
  * @CREATE_COUPON
