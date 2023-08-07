@@ -1,4 +1,4 @@
-import Coupon from "../models/coupon.model";
+import Coupon from "../models/coupon.model.js";
 import asyncHandler from "../services/asyncHandler";
 import CustomError from "../services/CustomError";
 
