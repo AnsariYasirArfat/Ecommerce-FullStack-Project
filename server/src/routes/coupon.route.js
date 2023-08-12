@@ -10,11 +10,16 @@ import AuthRoles from "../utils/authRoles.js";
 
 const router = Router();
 
-router.post("/", isLoggedIn, authorize(AuthRoles.ADMIN), createCoupon);
-
-router.delete("/:id", isLoggedIn, authorize(AuthRoles.ADMIN), deleteCoupon);
+router.post(
+  "/createcoupon",
+  isLoggedIn,
+  authorize(AuthRoles.ADMIN),
+  createCoupon
+);
 
 router.put("/:id", isLoggedIn, authorize(AuthRoles.ADMIN), updateCouponStatus);
+
+router.delete("/:id", isLoggedIn, authorize(AuthRoles.ADMIN), deleteCoupon);
 
 router.get("/", isLoggedIn, authorize(AuthRoles.ADMIN), getAllCoupons);
 

@@ -10,17 +10,24 @@ import CustomError from "../services/CustomError.js";
  * @returns Coupon Object with success message "Coupon Created SuccessFully"
  *********************************************************/
 export const createCoupon = asyncHandler(async (req, res) => {
-  const { code, discount } = req.body;
+  const { code, discount, active } = req.body;
+
   if (!code || !discount) {
-    throw new CustomError("Code and discount are required", 400);
+    throw new CustomError("Code & discount are required", 400);
   }
   // check id code already exists
-  const exitingCoupon = await User.findOne({ code });
+  const exitingCoupon = await Coupon.findOne({ code });
+
   if (exitingCoupon) {
     throw new CustomError("Coupon code already exists", 400);
   }
 
-  const coupon = await Coupon.create({ code, discount });
+  const coupon = await Coupon.create({ code, discount, active });
+
+  if (!coupon) {
+    throw new CustomError("Coupon is failed to create", 400);
+  }
+
   res.status(200).json({
     success: true,
     message: "Coupon created successfully",
@@ -37,14 +44,12 @@ export const createCoupon = asyncHandler(async (req, res) => {
  *********************************************************/
 export const updateCouponStatus = asyncHandler(async (req, res) => {
   const { id: couponId } = req.params;
-  const { action } = req.body;
+  const { active } = req.body;
 
   // action is a boolean or not
   const coupon = await Coupon.findByIdAndUpdate(
     couponId,
-    {
-      active: action,
-    },
+    { active },
     {
       new: true,
       runValidators: true,
