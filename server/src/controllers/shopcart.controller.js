@@ -9,25 +9,38 @@ import CustomError from "../services/CustomError.js";
  * @returns Shopcart added Product Object
  *********************************************************/
 export const addToShopcart = asyncHandler(async (req, res) => {
-  const { user, product, quantity } = req.body;
-  if (!user || !product || !quantity) {
-    throw new CustomError("Please provide User & Product & quantity", 400);
+  const { productId, quantity } = req.body;
+  const userId = req.user._id;
+
+  if (!productId || !quantity) {
+    throw new CustomError("Please provide Product & quantity", 400);
   }
   // Check if the item already exists in the cart for the user
-  let cartProduct = await Shopcart.findOne({ user, product });
+  let cartProduct = await Shopcart.findOne({ userId, productId });
 
   if (cartProduct) {
     cartProduct.quantity += quantity;
+    cartProduct.save();
     res.status(200).json({
       succuss: true,
-      message: "Product already present in shopcart, Quantity added by 1",
+      message: `Product already present in shopcart, Quantity added by ${quantity}`,
       cartProduct,
     });
   } else {
     cartProduct = await Shopcart.create({
-      user,
-      product,
+      userId,
+      productId,
       quantity,
+    });
+
+    if (!cartProduct) {
+      throw new CustomError("Product failed to added to Shoplist", 400);
+    }
+
+    res.status(200).json({
+      succuss: true,
+      message: `Product added to shopcart with Quantity of ${quantity}`,
+      cartProduct,
     });
   }
 });
@@ -39,12 +52,17 @@ export const addToShopcart = asyncHandler(async (req, res) => {
  * @returns Shopcart Product Object
  *********************************************************/
 export const getShopCartProducts = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.user._id;
   if (!userId) {
-    throw new CustomError("Please provide User Id", 400);
+    throw new CustomError("You need to login first", 400);
   }
 
-  const cartProduct = await Shopcart.find({ user: userId }).populate("product");
+  const cartProduct = await Shopcart.find({ userId }).populate("productId");
+
+  if (!cartProduct) {
+    throw new CustomError("Failed to fetch shopcart Product data", 400);
+  }
+
   res.status(200).json({
     success: true,
     cartProduct,
@@ -59,13 +77,18 @@ export const getShopCartProducts = asyncHandler(async (req, res) => {
  *********************************************************/
 export const updateShopcartProductQuantity = asyncHandler(async (req, res) => {
   const { cartProductId, quantity } = req.body;
+  const userId = req.user._id;
+
   if (!cartProductId || !quantity) {
-    throw new CustomError("Please provide Shopcart Id & quantity to add", 400);
+    throw new CustomError(
+      "Please provide Shopcart Product Id & quantity to add",
+      400
+    );
   }
   // Find the shopcart item by its ID
   //   const cartProduct = await Shopcart.findById(cartProductId);
   const cartProduct = await Shopcart.findByIdAndUpdate(
-    cartProductId,
+    { _id: cartProductId, userId },
     { quantity },
     {
       new: true,
@@ -93,13 +116,18 @@ export const updateShopcartProductQuantity = asyncHandler(async (req, res) => {
  * @returns Shopcart Product DELETE
  *********************************************************/
 export const deleteShopcartProduct = asyncHandler(async (req, res) => {
-  const { cartProductId } = req.params;
-  if (!cartProductId) {
-    throw new CustomError("Please provide cartItemid");
-  }
-  const cartItem = await Shopcart.findByIdAndDelete(cartProductId);
+  const { id: cartProductId } = req.params;
+  const userId = req.user._id;
 
-  if (!cartItem) {
+  if (!cartProductId) {
+    throw new CustomError("Please provide cartProduct Id");
+  }
+  const cartProduct = await Shopcart.findByIdAndDelete({
+    _id: cartProductId,
+    userId,
+  });
+
+  if (!cartProduct) {
     throw new CustomError("Cart item not found", 404);
   }
   res.status(200).json({
