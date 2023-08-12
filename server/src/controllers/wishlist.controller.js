@@ -9,9 +9,10 @@ import CustomError from "../services/CustomError.js";
  * @returns Wishlist added Product Object
  *********************************************************/
 export const addToWishlist = asyncHandler(async (req, res) => {
-  const { userId, productId } = req.body;
-  if (!userId || !productId) {
-    throw new CustomError("Please provide User & Product id", 400);
+  const { productId } = req.body;
+  const userId = req.user._id;
+  if (!productId) {
+    throw new CustomError("ProductId not received", 400);
   }
   const wishlistItem = await Wishlist.create({
     userId,
@@ -31,15 +32,15 @@ export const addToWishlist = asyncHandler(async (req, res) => {
 
 /**********************************************************
  * @VIEW_WISHLIST
- * @route <URL>/api/wishlist/
+ * @route  <URL>/api/wishlist/
  * @description Controller used to show all wishlist products
  * @returns Wishlist Products Object
  *********************************************************/
 export const getWishlist = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
+  const userId = req.user._id;
 
   if (!userId) {
-    throw new CustomError("Please provide User Id", 400);
+    throw new CustomError("You need to login first", 400);
   }
 
   const wishlist = await Wishlist.find({ userId }).populate("productId");
@@ -59,9 +60,11 @@ export const getWishlist = asyncHandler(async (req, res) => {
  * @description Controller used to remove wishlist products
  *********************************************************/
 export const deleteFromWishlist = asyncHandler(async (req, res) => {
-  const { userId, productId } = req.body;
-  if (!userId || !productId) {
-    throw new CustomError("Please provide User & Product id", 400);
+  const { productId } = req.body;
+  const userId = req.user._id;
+
+  if (!productId) {
+    throw new CustomError("ProductId not received", 400);
   }
 
   const removeProduct = await Wishlist.findOneAndDelete({ userId, productId });
