@@ -16,7 +16,7 @@ router.post("/generate_razorpay_order", isLoggedIn, generateRazorpayOrderId);
 
 router.post("/generateorder", isLoggedIn, generateOrder);
 
-router.get("/myorder/:userId", isLoggedIn, getMyOrders);
+router.get("/myorder", isLoggedIn, getMyOrders);
 
 router.get("/allorder", isLoggedIn, authorize(AuthRoles.ADMIN), getAllOrders);
 

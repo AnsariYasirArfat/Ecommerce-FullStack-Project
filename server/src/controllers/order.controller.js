@@ -91,23 +91,29 @@ export const generateRazorpayOrderId = asyncHandler(async (req, res) => {
  * @returns Generated Order
  *********************************************************/
 export const generateOrder = asyncHandler(async (req, res) => {
-  const { transactionId, cartProducts, coupon, totalAmount } = req.body;
+  const { transactionId, cartProducts, coupon, amount, phoneNumber, address } =
+    req.body;
+  const userId = req.user._id;
 
   // Create the order in your database
   const newOrder = await Order.create({
-    user: req.user,
-    product: cartProducts.map((cartProduct) => ({
-      productId: cartProduct.product,
-      quantity: cartProduct.quantity,
-      price: cartProduct.price,
+    userId,
+    productId: cartProducts.map((cartProduct) => ({
+      productId: cartProduct._id,
+      // quantity: cartProduct.quantity,
+      // price: cartProduct.price,
     })),
-    address: req.body.address,
-    phoneNumber: req.body.phoneNumber,
-    amount: totalAmount,
+    address,
+    phoneNumber,
+    amount,
     coupon,
     transactionId,
-    status: orderStatus.ORDERED,
+    status: "ORDERED",
   });
+
+  if (!newOrder) {
+    throw new CustomError("Order not created", 400);
+  }
 
   res.status(200).json({
     success: true,
@@ -123,10 +129,13 @@ export const generateOrder = asyncHandler(async (req, res) => {
  * @returns Array of User's Orders
  *********************************************************/
 export const getMyOrders = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.user._id;
 
   // Fetch orders for the specific user
-  const userOrders = await Order.find({ user: userId }).populate("product");
+  const userOrders = await Order.find({ userId }).populate({
+    path: "productId.productId",
+    model: "Shopcart",
+  });
 
   if (!userOrders) {
     throw new CustomError("Failed to fetch user orders", 500);
@@ -134,7 +143,7 @@ export const getMyOrders = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    orders: userOrders,
+    myOrders: userOrders,
   });
 });
 
@@ -146,7 +155,10 @@ export const getMyOrders = asyncHandler(async (req, res) => {
  *********************************************************/
 export const getAllOrders = asyncHandler(async (_req, res) => {
   // Fetch all orders
-  const allOrders = await Order.find().populate("product");
+  const allOrders = await Order.find().populate({
+    path: "productId.productId",
+    model: "Shopcart",
+  });
 
   if (!allOrders) {
     throw new CustomError("Failed to fetch all orders", 500);
@@ -177,6 +189,6 @@ export const updateOrderStatus = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Order status updated successfully",
-    order: order,
+    order,
   });
 });
