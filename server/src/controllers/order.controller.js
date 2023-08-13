@@ -23,30 +23,38 @@ export const generateRazorpayOrderId = asyncHandler(async (req, res) => {
   // Calculate total amount based on product prices and quantities
   let productPriceCalc = Promise.all(
     cartProducts.map(async (cartProduct) => {
-      const { product, quantity } = cartProduct;
-      const productFromDB = await Prodouct.findById(product);
+      const { productId, quantity } = cartProduct;
+      const productFromDB = await Prodouct.findById(productId);
       if (!productFromDB) {
         throw new CustomError("No product found", 400);
       }
       if (productFromDB.stock < quantity) {
         return res.status(400).json({
-          error: "Product quantity not in stock",
+          error: `Quantity of ${productFromDB.name} Product is not in stock`,
         });
       }
       totalAmount += productFromDB.price * quantity;
     })
   );
   await productPriceCalc;
+  console.log("Without Any discount", totalAmount);
 
   // Apply coupon code discount, if available
-  const couponCodeAvailable = await Coupon.findOne({ code: couponCode });
-  if (!couponCodeAvailable) {
-    throw new CustomError("Invalid coupon", 400);
-  }
-  if (couponCodeAvailable.active) {
-    totalAmount -= couponCodeAvailable.discount;
-  } else {
-    throw new CustomError("Coupon is not active", 400);
+  if (couponCode) {
+    const couponCodeAvailable = await Coupon.findOne({ code: couponCode });
+    if (!couponCodeAvailable) {
+      throw new CustomError("Invalid coupon", 400);
+    }
+    if (couponCodeAvailable.active) {
+      // Calculate the discount based on the percentage
+      const discountAmount = (totalAmount * couponCodeAvailable.discount) / 100;
+
+      // Subtract the discount amount from the total amount
+      totalAmount -= discountAmount;
+    } else {
+      throw new CustomError("Coupon is not active", 400);
+    }
+    console.log("Total amount after coupon discount: ", totalAmount);
   }
 
   const options = {
@@ -54,17 +62,25 @@ export const generateRazorpayOrderId = asyncHandler(async (req, res) => {
     currency: "INR",
     receipt: `receipt_${new Date().getTime()}`,
   };
+  console.log("Option Object: ", options);
 
   // Create the order on Razorpay and get the order ID
-  const order = await razorpay.orders.create(options);
-  if (!order) {
-    throw new CustomError("Unable to generate the order", 400);
-  }
+  razorpay.orders.create(options, function (err, order) {
+    if (err) {
+      console.error("Razorpay Order Creation Error:", err.error.description);
+      res.send({
+        success: false,
+        message: "Razorpay Order Creation Error:",
+        data: err,
+      });
+    }
 
-  res.status(200).json({
-    success: true,
-    message: "Razorpay order ID generated successfully",
-    orderId: order.id, // Return the Razorpay order ID to the client
+    console.log("Order Object form razorpay", order);
+    res.status(200).json({
+      success: true,
+      message: "Razorpay order ID generated successfully",
+      orderId: order.id, // Return the Razorpay order ID to the client
+    });
   });
 });
 

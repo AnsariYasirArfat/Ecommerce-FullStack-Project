@@ -3,12 +3,12 @@ import orderStatus from "../utils/orderStatus.js";
 
 const orderschema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    product: {
+    productId: {
       type: [
         {
           productId: {
