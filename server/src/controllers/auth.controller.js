@@ -20,7 +20,7 @@ export const signUp = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   // validation
   if (!name || !email || !password) {
-    throw new CustomError("Please all Credentials", 400);
+    throw new CustomError("Please fill all Credentials", 400);
   }
 
   // Adding this user's Credentials data to database
@@ -47,6 +47,7 @@ export const signUp = asyncHandler(async (req, res) => {
   // Sending token to client in response
   res.status(200).json({
     success: true,
+    message: "Your Account created successfully",
     token,
   });
 });

@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useState } from "react";
 import {
   Card,
   Input,
@@ -5,8 +7,54 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function RegistrationForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [fieldError, setFieldError] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
+  const navigate = useNavigate();
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (!agreedToTerms) {
+      setFieldError("Please agree to the Terms and Conditions.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setFieldError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/auth/signup",
+        {
+          name,
+          email,
+          password,
+        }
+      );
+      // Handle successful signup here,
+      setResponseMessage(response.data.message);
+      console.log(response.data.message);
+
+      // redirect to a different page.
+      navigate("/");
+
+      console.log("Signup successful:", response);
+    } catch (error) {
+      // Handle signup error here, e.g. display an error message
+      console.error("Signup error:", error);
+      console.log(error.response.data.message);
+      setResponseMessage(error.response.data.message);
+    }
+  };
   return (
     <div className="flex justify-center m-4">
       <Card color="transparent" shadow={false}>
@@ -16,19 +64,53 @@ function RegistrationForm() {
         <Typography color="teal" className="mt-1 font-normal text-center ">
           Enter your details to register.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+        {responseMessage ? (
+          <p className="text-xl text-center">{responseMessage}!</p>
+        ) : (
+          ""
+        )}
+        <form
+          onSubmit={handleSignup}
+          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+        >
           <div className="mb-4 flex flex-col gap-6">
-            <Input color="teal" size="lg" label="Name" />
-            <Input color="teal" size="lg" label="Email" />
-            <Input color="teal" type="password" size="lg" label="Password" />
             <Input
+              onChange={(e) => setName(e.target.value)}
+              color="teal"
+              size="lg"
+              label="Name"
+              required
+            />
+            <Input
+              onChange={(e) => setEmail(e.target.value)}
+              color="teal"
+              size="lg"
+              required
+              label="Email"
+            />
+            <Input
+              onChange={(e) => setPassword(e.target.value)}
               color="teal"
               type="password"
               size="lg"
+              required
+              label="Password"
+            />
+            <Input
+              onChange={(e) => setconfirmPassword(e.target.value)}
+              color="teal"
+              type="password"
+              size="lg"
+              required
               label="Confirm Password"
             />
           </div>
+          <p className="text-red-500">{fieldError}</p>
           <Checkbox
+            name="agreedToTerms"
+            required
+            checked={agreedToTerms}
+            onChange={(e) => setAgreedToTerms(e.target.checked)}
             color="teal"
             label={
               <Typography
@@ -47,17 +129,17 @@ function RegistrationForm() {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6 bg-teal-600" fullWidth>
+          <Button type="submit" className="mt-6 bg-teal-600" fullWidth>
             Register
           </Button>
           <Typography color="teal" className="mt-4 text-center font-normal ">
             Already have an account?
-            <a
-              href="#"
+            <NavLink
+              to="/login"
               className="font-medium text-teal-900 pl-2 hover:underline"
             >
               Sign In
-            </a>
+            </NavLink>
           </Typography>
         </form>
       </Card>
