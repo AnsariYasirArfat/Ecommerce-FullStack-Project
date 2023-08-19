@@ -28,8 +28,6 @@ function LoginForm() {
 
       // redirect to a different page.
       navigate("/");
-
-      console.log("cookie", document.cookie);
     } catch (error) {
       // Handle Login error here, e.g. display an error message
       console.error("Login error:", error);
