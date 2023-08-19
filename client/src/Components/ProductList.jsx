@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -10,6 +11,10 @@ import productImage from "../Assets/product.png";
 import ProductCard from "./ProductCard";
 
 function ProductList() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const data = [
     {
       label: "All",
@@ -148,21 +153,21 @@ function ProductList() {
 
   return (
     <section>
-      {/* <div>
-        <h1 className="text-4xl font-bold text-center p-4 text-teal-900">
-          ProductList
+      <div>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold text-center p-4 text-teal-800">
+          Products
         </h1>
-      </div> */}
+      </div>
       <Tabs
         id="custom-animation"
         value="all"
         className="flex flex-col xl:flex-row py-4 "
       >
-        <div className=" bg-teal-200 rounded-lg mx-4 mb-8 xl:mb-0 xl:mx-3 shadow-lg shadow-teal-900/60">
+        <div className=" bg-teal-200 rounded-lg mx-4 mb-8 xl:mb-0 xl:mx-4 shadow-lg shadow-teal-900/60">
           <h1 className="pt-2 text-center text-base lg:text-xl text-teal-700 font-bold">
             Category:
           </h1>
-          <TabsHeader className=" flex flex-row xl:flex-col p-1.5 md:p-2.5 xl:w-40 m-2 lg:m-4 bg-teal-300">
+          <TabsHeader className="flex flex-row xl:flex-col p-1.5 m-2 lg:m-4 md:p-2.5 xl:w-48 2xl:w-56 bg-teal-300">
             {data.map(({ label, value }) => (
               <Tab
                 key={value}
@@ -202,5 +207,3 @@ function ProductList() {
 }
 
 export default ProductList;
-
-// flex flex-wrap justify-evenly gap-x-1.5 gap-y-6 sm:gap-y-10 md:gap-y-4

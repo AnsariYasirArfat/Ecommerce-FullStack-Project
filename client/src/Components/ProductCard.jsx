@@ -14,7 +14,7 @@ import {
 function ProductCard({ Product }) {
   return (
     <>
-      <Card className="justify-between w-40 h-64 md:w-44 md:h-72 lg:w-52 lg:h-80 2xl:w-60 2xl:h-[352px] bg-opacity-[0.87] hover:bg-opacity-100 shadow-lg shadow-teal-900/60 hover:shadow-xl hover:shadow-teal-900/80 ">
+      <Card className="bg-teal-50 hover:bg-white justify-between w-40 h-64 md:w-44 md:h-72 lg:w-52 lg:h-80 2xl:w-60 2xl:h-[352px] bg-opacity-[0.87] hover:bg-opacity-100 shadow-lg shadow-teal-900/60 hover:shadow-xl hover:shadow-teal-900/80 ">
         <CardHeader
           shadow={true}
           floated={false}
@@ -47,7 +47,7 @@ function ProductCard({ Product }) {
           <NavLink to={`/productpage`}>
             <Button
               fullWidth={true}
-              className="flex items-center justify-center gap-1 lg:gap-2 text-[10px] md:text-[11px] lg:text-xs  2xl:text-sm py-2 md:py-3 bg-teal-50 text-teal-600 hover:shadow-none"
+              className="flex items-center justify-center gap-1 lg:gap-2 text-[10px] md:text-[11px] lg:text-xs  2xl:text-sm py-2 md:py-3 bg-teal-100 text-teal-600 hover:shadow-none"
             >
               Learn More
               <ArrowLongRightIcon
