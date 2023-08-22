@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const navigate = useNavigate();
+
   const handleForgotPassword = async (e) => {
     e.preventDefault();
 
@@ -15,9 +18,10 @@ function ForgotPasswordForm() {
           email,
         }
       );
-      console.log("email sent successful:", response);
 
-      setResponseMessage(`Link has been sent at "${email}" to reset Password`);
+      navigate("/resetpassword");
+
+      console.log("email sent successful:", response);
     } catch (error) {
       // Handle Login error here, e.g. display an error message
       console.error("Login error:", error);
@@ -35,7 +39,7 @@ function ForgotPasswordForm() {
           Forgot Password
         </Typography>
         {responseMessage ? (
-          <p className="text-xl text-center">{responseMessage}!</p>
+          <p className="text-xl text-center text-red-500">{responseMessage}!</p>
         ) : (
           <>
             <Typography color="teal" className="mt-1 font-normal text-center ">
@@ -51,6 +55,7 @@ function ForgotPasswordForm() {
                   color="teal"
                   size="lg"
                   label="Email"
+                  required
                 />
               </div>
               <Button type="submit" className="mt-2 bg-teal-600" fullWidth>

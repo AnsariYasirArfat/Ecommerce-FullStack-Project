@@ -15,7 +15,6 @@ export const cookieOptions = {
  * @description User signUp Controller for creating new user
  * @returns User Object
  ******************************************************/
-
 export const signUp = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   // validation
@@ -58,7 +57,6 @@ export const signUp = asyncHandler(async (req, res) => {
  * @description User Login Controller for signing in the user
  * @returns User Object
  *********************************************************/
-
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   // Validation
@@ -96,7 +94,6 @@ export const login = asyncHandler(async (req, res) => {
  * @description Removes token from cookies
  * @returns Success Message with "Logged Out"
  **********************************************************/
-
 export const logout = asyncHandler(async (req, res) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
@@ -116,7 +113,6 @@ export const logout = asyncHandler(async (req, res) => {
  * @description check token in cookies, if present then returns user details
  * @returns Logged In User Details
  **********************************************************/
-
 export const getProfile = asyncHandler(async (req, res) => {
   const { user } = req;
   if (!user) {
@@ -146,7 +142,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   const resetToken = user.generateForgetPasswordToken();
   console.log(resetToken);
 
-  //   await user.save({ validateBeforeSave: false });
   try {
     await user.save();
   } catch (error) {
@@ -154,14 +149,36 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     throw new CustomError("Failed to save user", 500);
   }
 
-  console.log(req.protocol);
+  // const resetUrl = `${req.protocol}://${req.get(
+  //   "host"
+  // )}/api/v1/auth/resetpassword/${resetToken}`;
 
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/auth/resetpassword/${resetToken}`;
+  // console.log(resetUrl);
 
-  console.log(resetUrl);
-  const message = `Your password reset token is as follows \n\n ${resetUrl} \n\n if this was not requested by you, please ignore.`;
+  // const message = `Your password reset token is as follows \n\n ${resetUrl} \n\n if this was not requested by you, please ignore.`;
+
+  const message = `
+  Subject: Reset Token For Your New Password
+
+      Hello ${user.name},
+
+      You've requested to reset your password. Please follow these simple steps to regain access to your account:
+
+      1. Copy the Reset Token:  ${resetToken}  
+      2. Go to the Reset Password Page.
+      3. Paste the Reset Token: On the reset password page, you'll find a field to enter your reset token. 
+      4. Create a new password and confirm it.
+      5. Submit the Form to reset your password.
+
+      Please note that for security reasons, the reset token will expire in 20 minutes.
+
+      If you didn't request this password reset, please ignore this email.
+
+      Thank you for using our services.
+
+      Best regards,
+      The Zen Max Team
+  `;
 
   try {
     await mailHelper({
@@ -173,7 +190,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
       success: true,
       email: user.email,
       subject: "Password reset mail",
-      message,
     });
   } catch (error) {
     user.forgotPasswordToken = undefined;
@@ -191,7 +207,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 @description Controller to handle password reset requests.
 @returns A JSON object with a success message and the user object.
 **********************************************************/
-
 export const resetPassword = asyncHandler(async (req, res) => {
   const { token: resetToken } = req.params;
   const { password, confirmPassword } = req.body;
@@ -217,7 +232,6 @@ export const resetPassword = asyncHandler(async (req, res) => {
     throw new CustomError("Password reset token in invalid or expired", 400);
   }
 
-  console.log(password);
   user.password = password;
   user.forgotPasswordToken = undefined;
   user.forgotPasswordExpiry = undefined;
@@ -238,7 +252,6 @@ export const resetPassword = asyncHandler(async (req, res) => {
  * @description check token in cookies, then return flag
  * @returns Logged In User validity
  **********************************************************/
-
 export const checkTokenValidity = asyncHandler(async (req, res) => {
   try {
     const user = req.user; // User object obtained from the middleware
