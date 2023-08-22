@@ -48,7 +48,7 @@ export const signUp = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Your Account created successfully",
-    token,
+    // token,
   });
 });
 
@@ -83,7 +83,7 @@ export const login = asyncHandler(async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "You Logged in successfully",
-      token,
+      // token,
     });
   }
   throw new CustomError("Password is incorrect", 400);
@@ -98,8 +98,6 @@ export const login = asyncHandler(async (req, res) => {
  **********************************************************/
 
 export const logout = asyncHandler(async (req, res) => {
-  console.log("Cookies_after_logout: ", req.cookies);
-
   res.cookie("token", null, {
     expires: new Date(Date.now()),
     httpOnly: true,
@@ -230,5 +228,27 @@ export const resetPassword = asyncHandler(async (req, res) => {
   res.cookie("token", token, cookieOptions);
   res.status(200).json({
     success: true,
+    message: "Password reseted successfully",
   });
+});
+
+/**********************************************************
+ * @checkTokenValidity
+ * @route <URL>/api/v1/auth/checkTokenValidity
+ * @description check token in cookies, then return flag
+ * @returns Logged In User validity
+ **********************************************************/
+
+export const checkTokenValidity = asyncHandler(async (req, res) => {
+  try {
+    const user = req.user; // User object obtained from the middleware
+    res.status(200).json({
+      isAuthenticated: !!user, // Convert to boolean
+    });
+  } catch (error) {
+    console.error("Error checking token validity:", error);
+    res.status(500).json({
+      isAuthenticated: false,
+    });
+  }
 });

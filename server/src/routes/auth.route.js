@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  checkTokenValidity,
   forgotPassword,
   getProfile,
   login,
@@ -19,5 +20,6 @@ router.post("/forgotpassword", forgotPassword);
 router.post("/resetpassword/:token", resetPassword);
 
 router.get("/profile", isLoggedIn, getProfile);
+router.get("/checkTokenValidity", isLoggedIn, checkTokenValidity);
 
 export default router;
