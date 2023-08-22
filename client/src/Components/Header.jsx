@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
+import mainLogo from "../Assets/mainLogo.png";
 import {
   Collapse,
   Typography,
@@ -15,45 +15,87 @@ import {
 } from "@material-tailwind/react";
 import {
   ShoppingBagIcon,
-  UserCircleIcon,
   ChevronDownIcon,
-  Cog6ToothIcon,
-  InboxArrowDownIcon,
-  LifebuoyIcon,
-  PowerIcon,
   Bars3Icon,
 } from "@heroicons/react/24/outline";
 
-import mainLogo from "../Assets/mainLogo.png";
-
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { setIsAuthenticated } from "../Store/reducers/authSlice";
 // profile menu component
 const profileMenuItems = [
   {
     label: "My Profile",
-    icon: UserCircleIcon,
+    imgIcon:
+      "https://img.icons8.com/external-flat-icons-inmotus-design/67/external-login-telegram-flat-icons-inmotus-design.png",
+    path: "profile",
   },
   {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
+    label: "Orders",
+    imgIcon:
+      "https://img.icons8.com/external-kmg-design-detailed-outline-kmg-design/64/external-logistics-shipping-delivery-kmg-design-detailed-outline-kmg-design-2.png",
+    path: "orders",
   },
   {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
+    label: "Wishlist",
+    imgIcon: "https://img.icons8.com/carbon-copy/100/wish-list.png",
+    path: "wishlist",
   },
   {
-    label: "Help",
-    icon: LifebuoyIcon,
+    label: "Coupon",
+    imgIcon:
+      "https://img.icons8.com/external-line-lima-studio/64/external-discount-sale-line-lima-studio-5.png",
+    path: "coupon",
   },
   {
-    label: "Sign Out",
-    icon: PowerIcon,
+    label: "Shop Cart",
+    imgIcon: "https://img.icons8.com/ios/50/add-shopping-cart--v1.png",
+    path: "shopcart",
+  },
+  {
+    label: "Log Out",
+    imgIcon: "https://img.icons8.com/ios-filled/50/logout-rounded-up.png",
+    path: "",
+  },
+];
+
+const signupItems = [
+  {
+    label: "Sign Up",
+    imgIcon:
+      "https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/external-user-medical-kiranshastry-lineal-kiranshastry.png",
+    path: "signup",
+  },
+  {
+    label: "Log In",
+    imgIcon: "https://img.icons8.com/ios-filled/50/login-rounded-right.png",
+    path: "login",
   },
 ];
 
 function ProfileMenu() {
+  let arrayItems;
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+
+  if (isAuthenticated) {
+    arrayItems = profileMenuItems;
+  } else {
+    arrayItems = signupItems;
+  }
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:8000/api/v1/auth/logout");
+
+      dispatch(setIsAuthenticated(false));
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -78,28 +120,37 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {arrayItems.map(({ label, imgIcon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
               onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
+              className={` rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                   : ""
               }`}
             >
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
               <Typography
-                as="span"
+                as={NavLink}
+                to={`/${path}`}
                 variant="small"
-                className="font-normal"
+                onClick={() => {
+                  if (label === "Log Out") {
+                    handleLogout();
+                  }
+                }}
+                className="font-normal flex items-center gap-2 "
                 color={isLastItem ? "red" : "inherit"}
               >
+                <img
+                  src={imgIcon}
+                  alt=""
+                  className={`h-[18px] w-[18px] ${
+                    isLastItem ? "text-red-500" : ""
+                  }`}
+                />
                 {label}
               </Typography>
             </MenuItem>
@@ -257,7 +308,6 @@ function NavList() {
 function Header() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
-
   React.useEffect(() => {
     window.addEventListener(
       "resize",
@@ -266,7 +316,7 @@ function Header() {
   }, []);
 
   return (
-    <nav className="sticky  top-0  z-10 w-full px-10 bg-teal-50 text-red-600">
+    <nav className="sticky top-0 z-50 w-full px-10 bg-teal-50 text-red-600">
       <div
         className="relative  flex items-center text-blue-gray-900"
         style={{ height: "12vh" }}
