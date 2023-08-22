@@ -22,6 +22,7 @@ import RegistrationForm from "./Components/SignUp";
 import LoginForm from "./Components/Login";
 import ForgotPasswordForm from "./Components/ForgotPasswordForm";
 import ResetPasswordForm from "./Components/ResetPassword";
+import Profile from "./Components/Profile";
 
 export const MainSection = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ export const MainSection = createBrowserRouter(
         <Route path="login" element={<LoginForm />} />
         <Route path="forgotpassword" element={<ForgotPasswordForm />} />
         <Route path="resetpassword" element={<ResetPasswordForm />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="about" element={<AboutUs />} />
         <Route path="contact" element={<ContactUs />} />
         <Route path="product" element={<ProductList />} />

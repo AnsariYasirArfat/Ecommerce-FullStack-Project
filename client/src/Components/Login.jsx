@@ -2,8 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { setIsAuthenticated } from "../Store/reducers/authSlice";
 function LoginForm() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
@@ -20,10 +22,11 @@ function LoginForm() {
           password,
         }
       );
-      console.log("LogIn successful:", response);
+      console.log("LogIn successful:", response.data);
 
-      // Handle successful Login here,
-      setResponseMessage(response.data.message);
+      if (response.data.success) {
+        dispatch(setIsAuthenticated(true));
+      }
       console.log(response.data.message);
 
       // redirect to a different page.
@@ -49,7 +52,7 @@ function LoginForm() {
           Enter your credentials to log in.
         </Typography>
         {responseMessage ? (
-          <p className="text-xl text-center">{responseMessage}!</p>
+          <p className="text-xl text-center text-red-500">{responseMessage}!</p>
         ) : (
           ""
         )}

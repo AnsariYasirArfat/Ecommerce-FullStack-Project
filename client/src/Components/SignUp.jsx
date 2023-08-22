@@ -7,9 +7,14 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIsAuthenticated } from "../Store/reducers/authSlice";
 
 function RegistrationForm() {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,8 +45,11 @@ function RegistrationForm() {
           password,
         }
       );
-      // Handle successful signup here,
-      setResponseMessage(response.data.message);
+
+      if (response.data.success) {
+        dispatch(setIsAuthenticated(true));
+      }
+
       console.log(response.data.message);
 
       // redirect to a different page.
@@ -65,7 +73,7 @@ function RegistrationForm() {
           Enter your details to register.
         </Typography>
         {responseMessage ? (
-          <p className="text-xl text-center">{responseMessage}!</p>
+          <p className="text-xl text-center text-red-500">{responseMessage}!</p>
         ) : (
           ""
         )}
