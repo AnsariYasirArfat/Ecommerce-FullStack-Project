@@ -1,5 +1,8 @@
 import React from "react";
 import * as ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import store from "./Store/store";
+
 import "./index.css";
 import { ThemeProvider } from "@material-tailwind/react";
 import {
@@ -20,7 +23,7 @@ import LoginForm from "./Components/Login";
 import ForgotPasswordForm from "./Components/ForgotPasswordForm";
 import ResetPasswordForm from "./Components/ResetPassword";
 
-const MainSection = createBrowserRouter(
+export const MainSection = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />}>
@@ -41,7 +44,9 @@ const MainSection = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <RouterProvider router={MainSection} />
+      <Provider store={store}>
+        <RouterProvider router={MainSection} />
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>
 );
