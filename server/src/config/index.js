@@ -4,7 +4,9 @@ dotenv.config();
 const config = {
   PORT: process.env.PORT || 8000,
 
-  LIVE_URL: process.env.LIVE_URL,
+  URL1: process.env.LIVE_URL1,
+  URL2: process.env.LIVE_URL2,
+
   MONGO_URL: process.env.MONGO_URL,
 
   JWT_SECRET: process.env.JWT_SECRET,
