@@ -2,10 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
 
 function ResetPasswordForm() {
+  const baseUrl = useSelector((state) => state.baseUrl.value);
   const dispatch = useDispatch();
 
   const [resetToken, setResetToken] = useState("");
@@ -18,13 +19,14 @@ function ResetPasswordForm() {
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
+    const token = resetToken.trim();
     if (password !== confirmPassword) {
       setFieldError("Passwords do not match.");
       return;
     }
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/auth/resetpassword/${resetToken}`,
+        `${baseUrl}/api/v1/auth/resetpassword/${token}`,
         {
           password,
           confirmPassword,

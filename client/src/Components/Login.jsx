@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+
 function LoginForm() {
+  const baseUrl = useSelector((state) => state.baseUrl.value);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,13 +17,10 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${baseUrl}/api/v1/auth/login`, {
+        email,
+        password,
+      });
       console.log("LogIn successful:", response.data);
 
       if (response.data.success) {

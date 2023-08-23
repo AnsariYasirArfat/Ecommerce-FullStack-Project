@@ -4,18 +4,18 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import axios from "axios";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "./Store/reducers/authSlice";
 
 function App() {
   const dispatch = useDispatch();
-
+  const baseUrl = useSelector((state) => state.baseUrl.value);
   useEffect(() => {
     axios.defaults.withCredentials = true;
     async function getTokenValidityStatus() {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/auth/checkTokenValidity"
+          `${baseUrl}/api/v1/auth/checkTokenValidity`
         );
         dispatch(setIsAuthenticated(response.data.isAuthenticated));
         console.log(
@@ -27,7 +27,7 @@ function App() {
       }
     }
     getTokenValidityStatus();
-  }, [dispatch]);
+  }, [dispatch, baseUrl]);
 
   return (
     <>

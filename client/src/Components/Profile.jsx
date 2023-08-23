@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Button, Typography } from "@material-tailwind/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+
 import { useNavigate } from "react-router-dom";
 
 function UserProfile() {
+  const baseUrl = useSelector((state) => state.baseUrl.value);
+
   const [user, setUser] = useState({});
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     async function getUserProfile() {
       try {
-        const response = await axios.get(
-          "http://localhost:8000/api/v1/auth/profile"
-        );
+        const response = await axios.get(`${baseUrl}/api/v1/auth/profile`);
         setUser(response.data.user);
       } catch (error) {
         console.error("Error fetching user details: ", error);
       }
     }
     getUserProfile();
-  }, []);
+  }, [baseUrl]);
 
   const handleLogout = async () => {
     try {

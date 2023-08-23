@@ -22,6 +22,7 @@ import {
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+
 // profile menu component
 const profileMenuItems = [
   {
@@ -78,9 +79,9 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
+  const baseUrl = useSelector((state) => state.baseUrl.value);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
-
   if (isAuthenticated) {
     arrayItems = profileMenuItems;
   } else {
@@ -89,7 +90,7 @@ function ProfileMenu() {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:8000/api/v1/auth/logout");
+      await axios.get(`${baseUrl}/api/v1/auth/logout`);
 
       dispatch(setIsAuthenticated(false));
     } catch (error) {

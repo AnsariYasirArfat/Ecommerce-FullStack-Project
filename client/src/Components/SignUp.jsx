@@ -9,10 +9,11 @@ import {
 } from "@material-tailwind/react";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
 
 function RegistrationForm() {
+  const baseUrl = useSelector((state) => state.baseUrl.value);
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
@@ -37,14 +38,11 @@ function RegistrationForm() {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/auth/signup",
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${baseUrl}/api/v1/auth/signup`, {
+        name,
+        email,
+        password,
+      });
 
       if (response.data.success) {
         dispatch(setIsAuthenticated(true));
