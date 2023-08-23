@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import PopularProduct from "./PopularProduct";
+import PopularProduct from "../../Components/PopularProduct";
 import {
   Card,
   CardHeader,

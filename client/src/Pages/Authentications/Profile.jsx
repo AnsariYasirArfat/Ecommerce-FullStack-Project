@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Card, Button, Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsAuthenticated } from "../Store/reducers/authSlice";
+import { setIsAuthenticated } from "../../Store/reducers/authSlice";
 
 import { useNavigate } from "react-router-dom";
-import { LogOut, Profile } from "../Services/authServices/authService";
+import { LogOut, Profile } from "../../Services/authServices/authService";
 
 function UserProfile() {
   const baseUrl = useSelector((state) => state.baseUrl.value);

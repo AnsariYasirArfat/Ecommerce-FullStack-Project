@@ -13,16 +13,16 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 
-import MainBody from "./Components/MainBody";
-import AboutUs from "./Components/AboutUs";
-import ContactUs from "./Components/ContactUs";
-import ProductList from "./Components/ProductList";
-import ProductPage from "./Components/ProductPage";
-import RegistrationForm from "./Components/SignUp";
-import LoginForm from "./Components/Login";
-import ForgotPasswordForm from "./Components/ForgotPasswordForm";
-import ResetPasswordForm from "./Components/ResetPassword";
-import Profile from "./Components/Profile";
+import MainBody from "./Pages/CommonPages/MainBody";
+import AboutUs from "./Pages/CommonPages/AboutUs";
+import ContactUs from "./Pages/CommonPages/ContactUs";
+import ProductList from "./Pages/CommonPages/ProductList";
+import ProductPage from "./Pages/CommonPages/ProductPage";
+import RegistrationForm from "./Pages/Authentications/SignUp";
+import LoginForm from "./Pages/Authentications/Login";
+import ForgotPasswordForm from "./Pages/Authentications/ForgotPasswordForm";
+import ResetPasswordForm from "./Pages/Authentications/ResetPassword";
+import Profile from "./Pages/Authentications/Profile";
 
 export const MainSection = createBrowserRouter(
   createRoutesFromElements(

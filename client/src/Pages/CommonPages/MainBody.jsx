@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Typography } from "@material-tailwind/react";
-import PopularProduct from "./PopularProduct";
+import PopularProduct from "../../Components/PopularProduct";
 import { Link } from "react-router-dom";
 
 function MainBody() {

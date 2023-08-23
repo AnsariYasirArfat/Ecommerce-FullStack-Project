@@ -7,8 +7,8 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 
-import productImage from "../Assets/product.png";
-import ProductCard from "./ProductCard";
+import productImage from "../../Assets/product.png";
+import ProductCard from "../../Components/ProductCard";
 
 function ProductList() {
   useEffect(() => {

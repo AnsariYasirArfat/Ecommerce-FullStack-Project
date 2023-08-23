@@ -9,8 +9,8 @@ import {
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsAuthenticated } from "../Store/reducers/authSlice";
-import { SignUp } from "../Services/authServices/authService";
+import { setIsAuthenticated } from "../../Store/reducers/authSlice";
+import { SignUp } from "../../Services/authServices/authService";
 
 function RegistrationForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);

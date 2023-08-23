@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ForgotPassword } from "../Services/authServices/authService";
+import { ForgotPassword } from "../../Services/authServices/authService";
 
 function ForgotPasswordForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);

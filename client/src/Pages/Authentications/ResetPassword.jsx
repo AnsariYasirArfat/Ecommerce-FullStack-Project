@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsAuthenticated } from "../Store/reducers/authSlice";
-import { ResetPassword } from "../Services/authServices/authService";
+import { setIsAuthenticated } from "../../Store/reducers/authSlice";
+import { ResetPassword } from "../../Services/authServices/authService";
 
 function ResetPasswordForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);

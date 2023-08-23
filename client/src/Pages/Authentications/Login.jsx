@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsAuthenticated } from "../Store/reducers/authSlice";
-import { Login } from "../Services/authServices/authService";
+import { setIsAuthenticated } from "../../Store/reducers/authSlice";
+import { Login } from "../../Services/authServices/authService";
 
 function LoginForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);
