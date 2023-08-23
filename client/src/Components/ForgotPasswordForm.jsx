@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ForgotPassword } from "../Services/authServices/authService";
 
 function ForgotPasswordForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);
@@ -14,12 +14,7 @@ function ForgotPasswordForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/api/v1/auth/forgotpassword`,
-        {
-          email,
-        }
-      );
+      const response = await ForgotPassword(baseUrl, email);
 
       navigate("/resetpassword");
 

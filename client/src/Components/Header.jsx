@@ -19,9 +19,9 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/outline";
 
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+import { LogOut } from "../Services/authServices/authService";
 
 // profile menu component
 const profileMenuItems = [
@@ -90,9 +90,10 @@ function ProfileMenu() {
 
   const handleLogout = async () => {
     try {
-      await axios.get(`${baseUrl}/api/v1/auth/logout`);
-
-      dispatch(setIsAuthenticated(false));
+      const response = await LogOut(baseUrl);
+      if (response.success) {
+        dispatch(setIsAuthenticated(false));
+      }
     } catch (error) {
       console.error("Error logging out:", error);
     }

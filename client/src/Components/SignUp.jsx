@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import {
   Card,
@@ -11,6 +10,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+import { SignUp } from "../Services/authServices/authService";
 
 function RegistrationForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);
@@ -38,27 +38,18 @@ function RegistrationForm() {
     }
 
     try {
-      const response = await axios.post(`${baseUrl}/api/v1/auth/signup`, {
-        name,
-        email,
-        password,
-      });
+      const response = await SignUp(baseUrl, name, email, password);
 
-      if (response.data.success) {
+      if (response.success) {
         dispatch(setIsAuthenticated(true));
+        navigate("/");
       }
-
-      console.log(response.data.message);
-
-      // redirect to a different page.
-      navigate("/");
-
+      console.log(response.message);
       console.log("Signup successful:", response);
     } catch (error) {
-      // Handle signup error here, e.g. display an error message
       console.error("Signup error:", error);
-      console.log(error.response.data.message);
-      setResponseMessage(error.response.data.message);
+      console.log(error.message);
+      setResponseMessage(error.message);
     }
   };
   return (

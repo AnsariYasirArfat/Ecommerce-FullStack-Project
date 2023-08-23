@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Card, Button, Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
 
 import { useNavigate } from "react-router-dom";
+import { LogOut, Profile } from "../Services/authServices/authService";
 
 function UserProfile() {
   const baseUrl = useSelector((state) => state.baseUrl.value);
@@ -17,8 +17,8 @@ function UserProfile() {
   useEffect(() => {
     async function getUserProfile() {
       try {
-        const response = await axios.get(`${baseUrl}/api/v1/auth/profile`);
-        setUser(response.data.user);
+        const response = await Profile(baseUrl);
+        setUser(response.user);
       } catch (error) {
         console.error("Error fetching user details: ", error);
       }
@@ -28,10 +28,11 @@ function UserProfile() {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:8000/api/v1/auth/logout");
-
-      dispatch(setIsAuthenticated(false));
-      navigate("/");
+      const response = await LogOut(baseUrl);
+      if (response.success) {
+        dispatch(setIsAuthenticated(false));
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -47,9 +48,9 @@ function UserProfile() {
           <>
             <Typography variant="h6">Name: {user.name}</Typography>
 
-            <Typography variant="body1">Email: {user.email}</Typography>
+            <Typography>Email: {user.email}</Typography>
 
-            <Typography variant="body1">Role: {user.role}</Typography>
+            <Typography>Role: {user.role}</Typography>
 
             <Button
               onClick={handleLogout}

@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "./Store/reducers/authSlice";
+import { CheckTokenValidity } from "./Services/authServices/authService";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,13 +15,11 @@ function App() {
     axios.defaults.withCredentials = true;
     async function getTokenValidityStatus() {
       try {
-        const response = await axios.get(
-          `${baseUrl}/api/v1/auth/checkTokenValidity`
-        );
-        dispatch(setIsAuthenticated(response.data.isAuthenticated));
+        const response = await CheckTokenValidity(baseUrl);
+        dispatch(setIsAuthenticated(response.isAuthenticated));
         console.log(
           "You are already logged and have valid token: ",
-          response.data.isAuthenticated
+          response.isAuthenticated
         );
       } catch (error) {
         console.error("Error checking token validity:", error);

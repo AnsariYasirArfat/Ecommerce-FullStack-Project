@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+import { ResetPassword } from "../Services/authServices/authService";
 
 function ResetPasswordForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);
@@ -25,27 +25,24 @@ function ResetPasswordForm() {
       return;
     }
     try {
-      const response = await axios.post(
-        `${baseUrl}/api/v1/auth/resetpassword/${token}`,
-        {
-          password,
-          confirmPassword,
-        }
+      const response = await ResetPassword(
+        baseUrl,
+        password,
+        confirmPassword,
+        token
       );
 
-      if (response.data.success) {
+      if (response.success) {
         dispatch(setIsAuthenticated(true));
       }
-      console.log(response.data.message);
-
-      // redirect to a different page.
+      console.log(response.message);
       navigate("/");
 
       console.log("Password reseted: ", response);
     } catch (error) {
       console.error("Password reseted error:", error);
-      console.log(error.response.data.message);
-      setResponseMessage(error.response.data.message);
+      console.log(error.message);
+      setResponseMessage(error.message);
     }
   };
 

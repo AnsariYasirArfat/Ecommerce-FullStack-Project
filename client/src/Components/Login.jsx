@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthenticated } from "../Store/reducers/authSlice";
+import { Login } from "../Services/authServices/authService";
 
 function LoginForm() {
   const baseUrl = useSelector((state) => state.baseUrl.value);
@@ -17,24 +17,16 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${baseUrl}/api/v1/auth/login`, {
-        email,
-        password,
-      });
-      console.log("LogIn successful:", response.data);
-
-      if (response.data.success) {
+      const response = await Login(baseUrl, email, password);
+      console.log("login response: ", response);
+      if (response.success) {
         dispatch(setIsAuthenticated(true));
+        navigate("/");
       }
-      console.log(response.data.message);
-
-      // redirect to a different page.
-      navigate("/");
+      console.log(response.message);
     } catch (error) {
-      // Handle Login error here, e.g. display an error message
       console.error("Login error:", error);
-      console.log(error.response.data.message);
-      setResponseMessage(error.response.data.message);
+      setResponseMessage(error.message);
     }
   };
 
